@@ -1,0 +1,30 @@
+Hubspot liaison avec hub.dulse
+
+clef api ec94cc63-8761-4d15-a74d-1dc6303f7006
+
+notre id d'organisation 8767883
+
+pip install --upgrade hubspot-api-client
+
+on a 4 sorte de transactions sur hub.dulse
+phase de panier
+phase de demande de devis
+
+Creation de contact par rappot aux utilisateur de hub.dulse.fr ?
+Creation d'entreprise ?
+
+Creation d'une  transaction a l'etat de panier pour chaque panier créer sur hub.dulse
+Piece jointe du panier
+export contact email
+creation de ligne de transaction par rapport au basket line de hub.dulse.fr
+calcul de cout de la piece ... mhmm
+description: mettre juste de lien de la commande hub.dulse?
+
+MAJ de cette transaction, la faire passer a l'etat demande de defis ou Repondre au devis
+
+-------------------------------------------------------------------------------------------
+2 programmes
+1 programmde de creation
+	chercher nouveau demande de devis, devis, commande
+	creation dans hubspot de "demande de devis" "repondre au devis" "commandes gagné" dans hubspot.transaction.hub.dulse
+1 proframmde de MAJ de status ou d'info

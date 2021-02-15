@@ -1,7 +1,10 @@
 import logging
 import utils
 from manager_3yourmind import requestsForQuote, quotes, orders
+from utils import get_conn_cursor, is_in_hubspot
 
+# TODO on est pas obliger de request tout les obj
+# faire un filtre par status ? par date ?
 def feed_rfq(conn, cursor):
     logger = logging.getLogger()
     try:
@@ -10,38 +13,46 @@ def feed_rfq(conn, cursor):
     except Exception as e:
         logging.error('Get requests for quote hub.dulse.fr: %s', str(e))
         raise e
-    for rfq in rfqs:
+    try:
+        all_rfqs = requestsForQuote.get()
+    except Exception as e:
+        raise e
+    for rfq in all_rfqs:
         # TODO a coder
-        if is_rfq_already_in_hubspot(rfq):
+        if is_in_hubspot(rfq):
             continue
         try:
             # TODO a coder
             create_rfq_in_hubspot(rfq)
             # TODO a coder
-            log_db_create_rfq_hubspot(rfq, conn, cursor)
+            log_db_create_rfq_hubspot(rfq, 'request for quote', conn, cursor)
         except Exception as e:
-            log_db_create_rfq_hubspot(rfq, conn, cursor, error=str(e))
+            log_db_create_rfq_hubspot(rfq, 'request for quote',  conn, cursor, error=str(e))
             logging.error('create request for quote in hubspot: %s', rfq['fullName'])
 
 def feed_quote(conn, cursor):
     logger = logging.getLogger()
     try:
         logging.info('Get quotes hub.dulse.fr')
-        quotes = quotes.get()
+        all_quotes = quotes.get()
     except Exception as e:
         logging.error('Get quotes hub.dulse.fr: %s', str(e))
         raise e
-    for quote in quotes:
+    try:
+        all_quotes = quotes.get(all_quotes)
+    except Exception as e:
+        raise e
+    for quote in all_quotes:
         # TODO a coder
-        if is_quote_already_in_hubspot(rfq):
+        if is_already_in_hubspot(quote):
             continue
         try:
             # TODO a coder
-            create_quote_in_hubspot(rfq)
+            create_quote_in_hubspot(quote)
             # TODO a coder
-            log_db_create_rfq_hubspot(rfq, conn, cursor)
+            log_db_create_rfq_hubspot(quote, 'quote', conn, cursor)
         except Exception as e:
-            log_db_create_rfq_hubspot(rfq, conn, cursor, error=str(e))
+            log_db_create_rfq_hubspot(quote, 'quote', conn, cursor, error=str(e))
             logging.error('create quote in hubspot: %s', quote['fullName'])
 
 

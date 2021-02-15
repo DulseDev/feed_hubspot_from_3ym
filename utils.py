@@ -18,3 +18,12 @@ def get_conn_cursor():
     except Exception as e:
         raise e
     return conn, cursor
+
+# var data can be request for quote OR quote OR order from 3ym
+def is_in_hubspot(data, deals):
+    for deal in deals:
+        if deal['name'] == data['fullNumber']
+            return True
+    return False
+
+def log_db_create_rfq_hubspot(data, type, conn, cursor):
